@@ -19,6 +19,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,20 +27,30 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.Text;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
+
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     EditText mResultEt;
     ImageView mPreviewIv;
+    public final String TAG ="MainActivityX";
 
-
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final  int CAMERA_REQUEST_CODE=200;
     private static final  int STORAGE_REQUEST_CODE=400;
     private static final  int IMAGE_PICK_GALLERY_CODE=1000;
@@ -51,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     Uri image_uri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG,"I ran 1");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ActionBar actionBar = getSupportActionBar();
@@ -71,12 +83,45 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        String output ="";
+        String header ="";
+        Map<String, String> dbInput= new HashMap<>();
+        ArrayList<String> headers= new ArrayList<String>();
         int id = item.getItemId();
         if(id== R.id.addImage){
             showImageImportDialog();
         }
         if(id== R.id.save){
             Toast.makeText(this,"Saved to Database", Toast.LENGTH_SHORT).show();
+            /*
+            output = mResultEt.getText().toString();
+            header=output.substring(0,output.indexOf("s/m"));
+            output=output.substring(output.indexOf("s/m"),output.length());
+            while(header!=""||header!=" "){
+                headers.add(header.substring(0,header.indexOf(" ")));
+                header= header.substring(header.indexOf(" "),header.length());
+            }
+            for(int i=0; i<headers.size();i++){
+                dbInput.put(headers.get(i),output.substring(0,output.indexOf(" ")));
+                output = output.substring(output.indexOf(" "),output.length());
+            }*/
+
+            db.collection("Erg Score").add(dbInput).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                @Override
+                public void onSuccess(DocumentReference documentReference) {
+                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                }
+            })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error adding document", e);
+                        }
+                    });
+
+
+
+
         }
         return super.onOptionsItemSelected(item);
     }
