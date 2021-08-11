@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "334100727048",
+    "project_id": "rowingmachinelogger",
+    "storage_bucket": "rowingmachinelogger.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:334100727048:android:0dacc47f071f2ce09598bd",
+        "android_client_info": {
+          "package_name": "com.example.rowingmachinelogger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "334100727048-s26beb6fjjtiqqb4c87eorg4ifpt1b7q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQyRcaArQK8KGRyjGVpJE-luiqBhZExh0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "334100727048-s26beb6fjjtiqqb4c87eorg4ifpt1b7q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
